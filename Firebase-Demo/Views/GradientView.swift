@@ -22,4 +22,6 @@ class GradientView: UIView {
     gradientLayer.colors = colors
     layer.addSublayer(gradientLayer)
   }
+    
+    
 }
