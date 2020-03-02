@@ -51,9 +51,9 @@ class LoginViewController: UIViewController {
                         self?.errorLabel.text = "\(error.localizedDescription)"
                         self?.errorLabel.textColor = .red
                     }
-                case .success(let authDataResult):
+                case .success:
                     DispatchQueue.main.async {
-                        // TODO: navigate to the main view
+                        self?.navigateToMainView()
                         
                     }
                 }
@@ -67,9 +67,9 @@ class LoginViewController: UIViewController {
                         self?.errorLabel.text = "\(error.localizedDescription)"
                         self?.errorLabel.textColor = .red
                     }
-                case .success(let authDataResult):
+                case .success:
                     DispatchQueue.main.async {
-                        // TODO: navigate to the main view
+                        self?.navigateToMainView()
                         
                     }
                 }

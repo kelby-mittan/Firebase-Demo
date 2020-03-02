@@ -26,18 +26,66 @@
         <!--Profile-->
         <scene sceneID="ipW-CE-DVi">
             <objects>
-                <viewController id="nM2-mu-qTC" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ProfileViewController" id="nM2-mu-qTC" customClass="ProfileViewController" customModule="Firebase_Demo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="W9Z-Vu-P3k">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="hc9-Iy-uR3">
+                                <rect key="frame" x="147" y="85.5" width="120" height="117"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="120" id="FkK-oA-Dv5"/>
+                                    <constraint firstAttribute="width" constant="120" id="VsO-Cw-Yy9"/>
+                                </constraints>
+                            </imageView>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="enter a display name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ecb-mP-dMe">
+                                <rect key="frame" x="20" y="224" width="374" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="Aoc-Iz-bCw"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VsN-qS-Fib">
+                                <rect key="frame" x="20" y="288" width="374" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hOQ-41-UVr">
+                                <rect key="frame" x="158" y="433" width="98" height="30"/>
+                                <state key="normal" title="Update Profile"/>
+                                <connections>
+                                    <action selector="updateProfileButtonPressed:" destination="nM2-mu-qTC" eventType="touchUpInside" id="Yyb-Kn-pgC"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="hc9-Iy-uR3" firstAttribute="centerX" secondItem="W9Z-Vu-P3k" secondAttribute="centerX" id="0nB-1c-4tY"/>
+                            <constraint firstItem="VsN-qS-Fib" firstAttribute="leading" secondItem="NYw-rK-tUA" secondAttribute="leading" constant="20" id="3g5-Hc-Tk5"/>
+                            <constraint firstItem="ecb-mP-dMe" firstAttribute="leading" secondItem="NYw-rK-tUA" secondAttribute="leading" constant="20" id="8Wz-I4-gv9"/>
+                            <constraint firstItem="ecb-mP-dMe" firstAttribute="top" secondItem="hc9-Iy-uR3" secondAttribute="bottom" constant="20" id="8sU-Si-qY2"/>
+                            <constraint firstItem="hOQ-41-UVr" firstAttribute="centerX" secondItem="W9Z-Vu-P3k" secondAttribute="centerX" id="BiO-mW-og1"/>
+                            <constraint firstItem="hc9-Iy-uR3" firstAttribute="top" secondItem="NYw-rK-tUA" secondAttribute="top" constant="40" id="EWc-pU-FJL"/>
+                            <constraint firstItem="VsN-qS-Fib" firstAttribute="top" secondItem="ecb-mP-dMe" secondAttribute="bottom" constant="20" id="SW2-Fq-hln"/>
+                            <constraint firstItem="NYw-rK-tUA" firstAttribute="trailing" secondItem="ecb-mP-dMe" secondAttribute="trailing" constant="20" id="SoH-CS-K0h"/>
+                            <constraint firstItem="hOQ-41-UVr" firstAttribute="centerY" secondItem="W9Z-Vu-P3k" secondAttribute="centerY" id="VBp-fZ-9kx"/>
+                            <constraint firstItem="NYw-rK-tUA" firstAttribute="trailing" secondItem="VsN-qS-Fib" secondAttribute="trailing" constant="20" id="sPe-2i-n4I"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="NYw-rK-tUA"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Profile" id="G9K-EC-paj"/>
+                    <connections>
+                        <outlet property="displayNameTextField" destination="ecb-mP-dMe" id="ZJV-b5-xf7"/>
+                        <outlet property="emailLabel" destination="VsN-qS-Fib" id="Ycf-AL-2fv"/>
+                        <outlet property="profileImage" destination="hc9-Iy-uR3" id="9sa-JH-Buc"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Te1-ng-xra" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="100" y="785"/>
+            <point key="canvasLocation" x="100.00000000000001" y="784.82142857142856"/>
         </scene>
         <!--Item Feed-->
         <scene sceneID="tIc-Xe-hQ9">
@@ -75,4 +123,7 @@
             <point key="canvasLocation" x="-1246" y="250"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="person.fill" catalog="system" width="64" height="60"/>
+    </resources>
 </document>
