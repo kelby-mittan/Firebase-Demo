@@ -7,7 +7,7 @@ target 'Firebase-Demo' do
 
   # Pods for Firebase-Demo
 
-pod 'Firebase/Analytics'
+#pod 'Firebase/Analytics'
 pod 'Firebase/Auth'
 pod 'Firebase/Firestore'
 pod 'FirebaseFirestoreSwift'

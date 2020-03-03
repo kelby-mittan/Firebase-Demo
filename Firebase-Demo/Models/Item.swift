@@ -14,5 +14,18 @@ struct Item {
     let itemId: String
     let listedDate: Date
     let sellerName: String
+    let sellerId: String
     let categoryName: String
+}
+
+extension Item {
+    init?(dictionary: [String: Any]) {
+        self.itemName = dictionary["itemName"] as? String ?? "No Item Name"
+        self.price = dictionary["price"] as? Double ?? 0.0
+        self.itemId = dictionary["itemId"] as? String ?? "No Item Id"
+        self.listedDate = dictionary["listedDate"] as? Date ?? Date()
+        self.sellerName = dictionary["sellerName"] as? String ?? "No seller name"
+        self.sellerId = dictionary["sellerId"] as? String ?? "No seller id"
+        self.categoryName = dictionary["categoryName"] as? String ?? "No category name"
+    }
 }
