@@ -50,12 +50,12 @@ class ProfileViewController: UIViewController {
         
         request?.displayName = displayName
         
-        request?.commitChanges(completion: { (error) in
+        request?.commitChanges(completion: { [unowned self] (error) in
             if let error = error {
-                print("commit changes error: \(error)")
+                self.showAlert(title: "Profile Changed", message: "Error: \(error)")
                 
             } else {
-                print("profile succesfully updated")
+                self.showAlert(title: "That's What's Up", message: "Your profile has been updated.")
             }
             
         })
