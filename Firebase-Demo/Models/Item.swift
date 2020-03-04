@@ -19,7 +19,7 @@ struct Item {
 }
 
 extension Item {
-    init?(dictionary: [String: Any]) {
+    init(_ dictionary: [String: Any]) {
         self.itemName = dictionary["itemName"] as? String ?? "No Item Name"
         self.price = dictionary["price"] as? Double ?? 0.0
         self.itemId = dictionary["itemId"] as? String ?? "No Item Id"

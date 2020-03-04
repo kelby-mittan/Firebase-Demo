@@ -11,6 +11,7 @@ target 'Firebase-Demo' do
 pod 'Firebase/Auth'
 pod 'Firebase/Firestore'
 pod 'FirebaseFirestoreSwift'
+pod 'Firebase/Storage'
 
   target 'Firebase-DemoTests' do
     inherit! :search_paths

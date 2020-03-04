@@ -27,7 +27,9 @@ class ItemFeedViewController: UIViewController {
         super.viewDidLoad()
 
         tableView.dataSource = self
-//        tableView.delegate = self
+        tableView.delegate = self
+        
+        tableView.register(UINib(nibName: "ItemCell", bundle: nil), forCellReuseIdentifier: "itemCell")
     }
     
 
@@ -39,8 +41,8 @@ class ItemFeedViewController: UIViewController {
                     self?.showAlert(title: "Error", message: "\(error.localizedDescription)")
                 }
             } else if let snapshot = snapshot {
-                let items = snapshot.documents
-                print(items.count)
+                let items = snapshot.documents.map { Item($0.data()) }
+                self?.items = items
             }
         })
     }
@@ -54,15 +56,24 @@ class ItemFeedViewController: UIViewController {
 
 extension ItemFeedViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return items.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "itemCell", for: indexPath) as? ItemCell else {
+            fatalError("could not downcast to ItemCell")
+        }
         
+        let item = items[indexPath.row]
+        cell.configureCell(for: item)
         return cell
     }
     
     
 }
 
+extension ItemFeedViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 140
+    }
+}

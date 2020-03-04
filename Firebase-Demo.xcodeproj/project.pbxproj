@@ -21,6 +21,10 @@
 		026CA23A240D777800020057 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026CA239240D777800020057 /* Category.swift */; };
 		026CA23D240D7B9700020057 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026CA23C240D7B9700020057 /* Item.swift */; };
 		026CA23F240D7E7600020057 /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026CA23E240D7E7600020057 /* DatabaseService.swift */; };
+		026D6BAA240FFE0600CC1421 /* ItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 026D6BA9240FFE0600CC1421 /* ItemCell.xib */; };
+		026D6BAC240FFE2C00CC1421 /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026D6BAB240FFE2C00CC1421 /* ItemCell.swift */; };
+		026D6BAE24100B1C00CC1421 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026D6BAD24100B1B00CC1421 /* UIImage+Extensions.swift */; };
+		026D6BB024100DD900CC1421 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026D6BAF24100DD900CC1421 /* StorageService.swift */; };
 		558CDA063952AF3A42F40B50 /* Pods_Firebase_DemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C385FFDDC582C03D7786236F /* Pods_Firebase_DemoTests.framework */; };
 		57845ACD24092D4300F35651 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57845ACC24092D4300F35651 /* AppDelegate.swift */; };
 		57845ACF24092D4300F35651 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57845ACE24092D4300F35651 /* SceneDelegate.swift */; };
@@ -59,6 +63,10 @@
 		026CA239240D777800020057 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		026CA23C240D7B9700020057 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		026CA23E240D7E7600020057 /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
+		026D6BA9240FFE0600CC1421 /* ItemCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ItemCell.xib; sourceTree = "<group>"; };
+		026D6BAB240FFE2C00CC1421 /* ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
+		026D6BAD24100B1B00CC1421 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
+		026D6BAF24100DD900CC1421 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		0F02EBF4BE51B795DFCE5D9C /* Pods-Firebase-Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Firebase-Demo.debug.xcconfig"; path = "Target Support Files/Pods-Firebase-Demo/Pods-Firebase-Demo.debug.xcconfig"; sourceTree = "<group>"; };
 		2DB4F2BC7AEEBB1DF31A81CC /* Pods-Firebase-DemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Firebase-DemoTests.debug.xcconfig"; path = "Target Support Files/Pods-Firebase-DemoTests/Pods-Firebase-DemoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5637A14F6A6F8699B20B0839 /* Pods-Firebase-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Firebase-Demo.release.xcconfig"; path = "Target Support Files/Pods-Firebase-Demo/Pods-Firebase-Demo.release.xcconfig"; sourceTree = "<group>"; };
@@ -105,6 +113,7 @@
 			children = (
 				02682EB92409754F0064C354 /* AuthenticationSession.swift */,
 				026CA23E240D7E7600020057 /* DatabaseService.swift */,
+				026D6BAF24100DD900CC1421 /* StorageService.swift */,
 			);
 			path = "Firebase Services";
 			sourceTree = "<group>";
@@ -189,6 +198,8 @@
 				57845AF024092DBB00F35651 /* GradientView.swift */,
 				57845AF224092DDC00F35651 /* DesignableView.swift */,
 				026CA237240D758000020057 /* CategoryCell.swift */,
+				026D6BA9240FFE0600CC1421 /* ItemCell.xib */,
+				026D6BAB240FFE2C00CC1421 /* ItemCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -204,6 +215,7 @@
 				026CA231240D5F7300020057 /* CreateItemViewController.swift */,
 				026CA233240D5FAA00020057 /* UIViewController+Navigation.swift */,
 				026CA235240D5FE300020057 /* UIViewController+Alerts.swift */,
+				026D6BAD24100B1B00CC1421 /* UIImage+Extensions.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -313,6 +325,7 @@
 			files = (
 				57845AD924092D4400F35651 /* LaunchScreen.storyboard in Resources */,
 				02682EB724096E500064C354 /* GoogleService-Info.plist in Resources */,
+				026D6BAA240FFE0600CC1421 /* ItemCell.xib in Resources */,
 				026CA228240D5E1000020057 /* MainView.storyboard in Resources */,
 				57845AD624092D4400F35651 /* Assets.xcassets in Resources */,
 				57845AEF24092D5D00F35651 /* LoginView.storyboard in Resources */,
@@ -399,8 +412,10 @@
 			files = (
 				026CA23F240D7E7600020057 /* DatabaseService.swift in Sources */,
 				026CA234240D5FAA00020057 /* UIViewController+Navigation.swift in Sources */,
+				026D6BAC240FFE2C00CC1421 /* ItemCell.swift in Sources */,
 				57845AD124092D4300F35651 /* LoginViewController.swift in Sources */,
 				026CA22C240D5F3200020057 /* ItemFeedViewController.swift in Sources */,
+				026D6BB024100DD900CC1421 /* StorageService.swift in Sources */,
 				026CA238240D758000020057 /* CategoryCell.swift in Sources */,
 				026CA23D240D7B9700020057 /* Item.swift in Sources */,
 				026CA230240D5F5900020057 /* ProfileViewController.swift in Sources */,
@@ -412,6 +427,7 @@
 				026CA22A240D5F0E00020057 /* TabBarController.swift in Sources */,
 				026CA23A240D777800020057 /* Category.swift in Sources */,
 				026CA236240D5FE300020057 /* UIViewController+Alerts.swift in Sources */,
+				026D6BAE24100B1C00CC1421 /* UIImage+Extensions.swift in Sources */,
 				02682EBA2409754F0064C354 /* AuthenticationSession.swift in Sources */,
 				57845ACF24092D4300F35651 /* SceneDelegate.swift in Sources */,
 			);
@@ -567,7 +583,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = ZEKMNK5YD3;
+				DEVELOPMENT_TEAM = 87F72Z6LFG;
 				INFOPLIST_FILE = "Firebase-Demo/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -586,7 +602,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = ZEKMNK5YD3;
+				DEVELOPMENT_TEAM = 87F72Z6LFG;
 				INFOPLIST_FILE = "Firebase-Demo/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
