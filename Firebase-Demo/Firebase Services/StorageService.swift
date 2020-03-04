@@ -18,18 +18,24 @@ class StorageService {
     // we will be creating two different buckets of folders 1. UserProfilePhotos 2. ItemPhotos
     
     // let's create a reference to the Firebase storage
-    private let storage = Storage.storage()
+    private let storageRef = Storage.storage().reference()
     
     // default parameters in Swift
     public func uploadPhoto(userId: String? = nil, itemId: String? = nil, image: UIImage, completion: @escaping (Result<URL,Error>) -> ()) {
         
         // 1. convert UIImage to data
-        
         guard let imageData = image.jpegData(compressionQuality: 1.0) else {
             return
         }
         
+        // 2. establish which bucket we will be saving image to
+        var photoReference: StorageReference!
         
+        if let userId = userId { // coming from ProfileViewController
+            photoReference = storageRef.child("UserProfilePhotos/\(userId).jpg")
+        } else if let itemId = itemId { // coming from CreateItemViewController
+            photoReference = storageRef.child("ItemsPhotos/\(itemId).jpg")
+        }
     }
     
     
