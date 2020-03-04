@@ -36,6 +36,25 @@ class StorageService {
         } else if let itemId = itemId { // coming from CreateItemViewController
             photoReference = storageRef.child("ItemsPhotos/\(itemId).jpg")
         }
+        
+        // 3. configure the metadata for the object being uploaded
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpg"
+        
+        let _ = photoReference.putData(imageData, metadata: metadata) { (metadata, error) in
+            
+            if let error = error {
+                completion(.failure(error))
+            } else if let _ = metadata {
+                photoReference.downloadURL { (url, error) in
+                    if let error = error {
+                        completion(.failure(error))
+                    } else if let url = url {
+                        completion(.success(url))
+                    }
+                }
+            }
+        }
     }
     
     
