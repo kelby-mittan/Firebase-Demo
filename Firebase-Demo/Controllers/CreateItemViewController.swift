@@ -15,9 +15,29 @@ class CreateItemViewController: UIViewController {
     
     @IBOutlet var itemPriceTextField: UITextField!
     
+    @IBOutlet var itemImageView: UIImageView!
+    
     private var category: Category
     
     private let dbService = DatabaseService()
+    
+    private lazy var imagePickerController: UIImagePickerController = {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        return picker
+    }()
+    
+    private lazy var longPressGesture: UILongPressGestureRecognizer = {
+        let gesture = UILongPressGestureRecognizer()
+        gesture.addTarget(self, action: #selector(showPhotoOptions))
+        return gesture
+    }()
+    
+    private var selectedImage: UIImage? {
+        didSet {
+            itemImageView.image = selectedImage
+        }
+    }
     
     init?(coder: NSCoder, category: Category) {
         self.category = category
@@ -31,7 +51,30 @@ class CreateItemViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        navigationItem.title = category.name
+        itemImageView.isUserInteractionEnabled = true
+        itemImageView.addGestureRecognizer(longPressGesture)
         
+    }
+    
+    @objc private func showPhotoOptions() {
+        let alertController = UIAlertController(title: "Choose Photo Option", message: nil, preferredStyle: .actionSheet)
+        
+        let cameraAction = UIAlertAction(title: "Camera", style: .default) { (alertAction) in
+            self.imagePickerController.sourceType = .camera
+            self.present(self.imagePickerController, animated: true)
+        }
+        let photoLibraryAction = UIAlertAction(title: "Photo Library", style: .default) { (alertAction) in self.imagePickerController.sourceType = .photoLibrary
+            self.present(self.imagePickerController, animated: true)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            alertController.addAction(cameraAction)
+        }
+        alertController.addAction(photoLibraryAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true)
     }
     
     @IBAction func sellButtonPressed(_ sender: UIBarButtonItem) {
@@ -61,5 +104,15 @@ class CreateItemViewController: UIViewController {
         }
         
     }
-    
+}
+
+extension CreateItemViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
+            fatalError()
+        }
+        
+        selectedImage = image
+        dismiss(animated: true)
+    }
 }

@@ -98,14 +98,23 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                             </textField>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="1L3-mE-lgi">
+                                <rect key="frame" x="0.0" y="217" width="414" height="411.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="1L3-mE-lgi" secondAttribute="height" multiplier="1:1" id="YSg-Uy-Xbl"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="UiN-b3-BPG" firstAttribute="trailing" secondItem="cxm-ZL-vG4" secondAttribute="trailing" constant="20" id="2Oi-28-TyD"/>
+                            <constraint firstItem="1L3-mE-lgi" firstAttribute="top" secondItem="cxm-ZL-vG4" secondAttribute="bottom" constant="20" id="B2z-G5-F4P"/>
                             <constraint firstItem="cxm-ZL-vG4" firstAttribute="leading" secondItem="UiN-b3-BPG" secondAttribute="leading" constant="20" id="G5D-eH-g9M"/>
                             <constraint firstItem="nRh-qq-eUD" firstAttribute="leading" secondItem="UiN-b3-BPG" secondAttribute="leading" constant="20" id="LyW-Ib-gAE"/>
+                            <constraint firstItem="1L3-mE-lgi" firstAttribute="leading" secondItem="UiN-b3-BPG" secondAttribute="leading" id="ScL-Ry-VnJ"/>
                             <constraint firstItem="nRh-qq-eUD" firstAttribute="top" secondItem="UiN-b3-BPG" secondAttribute="top" constant="20" id="aqp-CM-CaZ"/>
                             <constraint firstItem="UiN-b3-BPG" firstAttribute="trailing" secondItem="nRh-qq-eUD" secondAttribute="trailing" constant="20" id="b0F-KI-weN"/>
+                            <constraint firstItem="1L3-mE-lgi" firstAttribute="trailing" secondItem="UiN-b3-BPG" secondAttribute="trailing" id="drI-2i-dTI"/>
                             <constraint firstItem="cxm-ZL-vG4" firstAttribute="top" secondItem="nRh-qq-eUD" secondAttribute="bottom" constant="20" id="hdM-Yy-IbH"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="UiN-b3-BPG"/>
@@ -118,6 +127,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="itemImageView" destination="1L3-mE-lgi" id="EiA-pY-Ian"/>
                         <outlet property="itemNameTextField" destination="nRh-qq-eUD" id="bmB-Im-A9I"/>
                         <outlet property="itemPriceTextField" destination="cxm-ZL-vG4" id="fD7-r3-xaK"/>
                     </connections>
@@ -134,13 +144,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="hc9-Iy-uR3">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="hc9-Iy-uR3" customClass="DesignableImageView" customModule="Firebase_Demo" customModuleProvider="target">
                                 <rect key="frame" x="147" y="85.5" width="120" height="117"/>
                                 <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="120" id="FkK-oA-Dv5"/>
                                     <constraint firstAttribute="width" constant="120" id="VsO-Cw-Yy9"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="35"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </imageView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="enter a display name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ecb-mP-dMe">
                                 <rect key="frame" x="20" y="224" width="374" height="44"/>
@@ -174,6 +189,13 @@
                                     <action selector="editProfileButtonPressed:" destination="nM2-mu-qTC" eventType="touchUpInside" id="Qba-xx-8vd"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kue-83-tKi">
+                                <rect key="frame" x="177" y="493" width="60" height="30"/>
+                                <state key="normal" title="Sign Out"/>
+                                <connections>
+                                    <action selector="signOutButtonPressed:" destination="nM2-mu-qTC" eventType="touchUpInside" id="w3Q-BF-dln"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -188,6 +210,8 @@
                             <constraint firstItem="VsN-qS-Fib" firstAttribute="top" secondItem="ecb-mP-dMe" secondAttribute="bottom" constant="20" id="SW2-Fq-hln"/>
                             <constraint firstItem="NYw-rK-tUA" firstAttribute="trailing" secondItem="ecb-mP-dMe" secondAttribute="trailing" constant="20" id="SoH-CS-K0h"/>
                             <constraint firstItem="hOQ-41-UVr" firstAttribute="centerY" secondItem="W9Z-Vu-P3k" secondAttribute="centerY" id="VBp-fZ-9kx"/>
+                            <constraint firstItem="kue-83-tKi" firstAttribute="top" secondItem="hOQ-41-UVr" secondAttribute="bottom" constant="30" id="dl0-cQ-Giu"/>
+                            <constraint firstItem="kue-83-tKi" firstAttribute="centerX" secondItem="NYw-rK-tUA" secondAttribute="centerX" id="gJl-Px-EQm"/>
                             <constraint firstItem="NYw-rK-tUA" firstAttribute="trailing" secondItem="VsN-qS-Fib" secondAttribute="trailing" constant="20" id="sPe-2i-n4I"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="NYw-rK-tUA"/>
