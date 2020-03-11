@@ -8,9 +8,10 @@
 
 import UIKit
 import FirebaseFirestore
+import FirebaseAuth
 
 class ItemFeedViewController: UIViewController {
-
+    
     @IBOutlet var tableView: UITableView!
     
     private var listener: ListenerRegistration?
@@ -23,16 +24,18 @@ class ItemFeedViewController: UIViewController {
         }
     }
     
+    private let databaseService = DatabaseService()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         tableView.dataSource = self
         tableView.delegate = self
         
         tableView.register(UINib(nibName: "ItemCell", bundle: nil), forCellReuseIdentifier: "itemCell")
     }
     
-
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         listener = Firestore.firestore().collection(DatabaseService.itemsCollection).addSnapshotListener({ [weak self] (snapshot, error) in
@@ -69,11 +72,54 @@ extension ItemFeedViewController: UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            //perform deletion on item
+            // since we have a listener we just need to delete from the firebase .
+            
+            // this is where we actually delete
+            //perform deletion on item
+            let item = items[indexPath.row]
+            databaseService.delete(item: item) { [weak self] (result) in
+                switch result {
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        self?.showAlert(title: "Deletion error", message: error.localizedDescription)
+                    }
+                case .success:
+                    print("deleted successfully")
+                }
+            }
+            
+        }
+    }
+    
+    // on the client side meaning the app we will ensure that swipe to delete only works for the user who created the item
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        let item = items[indexPath.row]
+        guard let user = Auth.auth().currentUser else { return false }
+        // ensuring that the person who is deleting is the one who created and selling the item.
+        if item.sellerId != user.uid {
+            return false // cannot swipe on row to delete
+        }
+        return true // able to swipe to delete item
+    }
     
 }
+
 
 extension ItemFeedViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 140
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = items[indexPath.row]
+        let storyboard = UIStoryboard(name: "MainView", bundle: nil)
+        let detailVC = storyboard.instantiateViewController(identifier: "ItemDetailController") { (coder) in
+            return ItemDetailController(coder: coder, item: item)
+        }
+        
+        navigationController?.pushViewController(detailVC, animated: true)
     }
 }

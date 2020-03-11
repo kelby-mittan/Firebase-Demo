@@ -18,6 +18,8 @@ class ProfileViewController: UIViewController {
     
     @IBOutlet var emailLabel: UILabel!
     
+    private let databaseService = DatabaseService()
+    
     private lazy var imagePickerController: UIImagePickerController = {
         let ip = UIImagePickerController()
         ip.delegate = self
@@ -96,6 +98,19 @@ class ProfileViewController: UIViewController {
             }
         }
         
+        
+    }
+    
+    //MARK: March 10th 2020
+    private func updateDatabaseUser(displayName: String, photoURL: String) {
+        databaseService.updateDatabaseUser(displayName: displayName, photoURL: photoURL) { (result) in
+            switch result {
+            case .failure(let error):
+                print("failed to update db user: \(error)")
+            case .success:
+                print("successfully updated db user")
+            }
+        }
     }
     
     @IBAction func editProfileButtonPressed(_ sender: UIButton) {
