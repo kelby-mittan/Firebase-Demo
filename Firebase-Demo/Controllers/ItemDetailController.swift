@@ -21,7 +21,7 @@ class ItemDetailController: UIViewController {
     
     private var originalValueForConstraint: CGFloat = 0
     
-    private var databaseService = DatabaseService()
+    private var databaseService = DatabaseService.shared
     
     private lazy var tapGesture: UITapGestureRecognizer = {
         let gesture = UITapGestureRecognizer()
@@ -45,6 +45,16 @@ class ItemDetailController: UIViewController {
         }
     }
     
+    private var isFavorite = false {
+      didSet {
+        if isFavorite {
+          navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart.fill")
+        } else {
+          navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart")
+        }
+      }
+    }
+    
     init?(coder: NSCoder, item: Item) {
         self.item = item
         super.init(coder: coder)
@@ -58,6 +68,8 @@ class ItemDetailController: UIViewController {
         super.viewDidLoad()
 
         navigationItem.title = item.itemName
+        navigationItem.largeTitleDisplayMode = .never
+        
         tableView.tableHeaderView = HeaderView(imageURL: item.imageURL)
         originalValueForConstraint = containerBottomConstraint.constant
         
@@ -123,7 +135,8 @@ class ItemDetailController: UIViewController {
     }
     
     private func unregisterKeyboardNotifications() {
-        
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
         
     }
     
@@ -137,12 +150,47 @@ class ItemDetailController: UIViewController {
     }
     
     @objc private func keyboardWillHide(_ notification: Notification) {
-        
+        dismissKeyboard()
     }
     
     @objc private func dismissKeyboard() {
         containerBottomConstraint.constant = originalValueForConstraint
         textView.resignFirstResponder()
+    }
+    
+    @IBAction func favoriteButtonPressed(_ sender: UIBarButtonItem) {
+      
+      if isFavorite { // remove from favorites
+        databaseService.removeFromFavorites(item: item) { [weak self] (result) in
+          switch result {
+          case .failure(let error):
+            DispatchQueue.main.async {
+              self?.showAlert(title: "Failed to remove favorite", message: error.localizedDescription)
+            }
+          case .success:
+            DispatchQueue.main.async {
+              self?.showAlert(title: "Item removed", message: "")
+              self?.isFavorite = false
+            }
+          }
+        }
+      } else { // add to favorites
+        databaseService.addToFavorites(item: item) { [weak self] (result) in
+           switch result {
+           case .failure(let error):
+             DispatchQueue.main.async {
+               self?.showAlert(title: "Favoriting error", message: error.localizedDescription)
+             }
+           case .success:
+             DispatchQueue.main.async {
+               self?.showAlert(title: "Item favorited", message: "")
+              self?.isFavorite = true
+             }
+           }
+         }
+      }
+      
+      
     }
     
 }

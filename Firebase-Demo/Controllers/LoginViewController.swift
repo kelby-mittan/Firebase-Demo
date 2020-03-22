@@ -26,9 +26,9 @@ class LoginViewController: UIViewController {
     
     private var accountState: AccountState = .existingUser
     
-    private var authSession = AuthenticationSession()
+    private var authSession = AuthenticationSession.shared
     
-    private var databaseService = DatabaseService()
+    private var databaseService = DatabaseService.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -20,9 +20,9 @@ class CreateItemViewController: UIViewController {
     
     private var category: Category
     
-    private let dbService = DatabaseService()
+    private let dbService = DatabaseService.shared
     
-    private let storageService = StorageService()
+    private let storageService = StorageService.shared
     
     private lazy var imagePickerController: UIImagePickerController = {
         let picker = UIImagePickerController()

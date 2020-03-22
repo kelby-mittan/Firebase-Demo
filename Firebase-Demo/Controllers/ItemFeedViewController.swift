@@ -24,7 +24,7 @@ class ItemFeedViewController: UIViewController {
         }
     }
     
-    private let databaseService = DatabaseService()
+    private let databaseService = DatabaseService.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,6 +54,7 @@ class ItemFeedViewController: UIViewController {
         super.viewWillDisappear(true)
         listener?.remove()
     }
+    
 }
 
 

@@ -12,10 +12,10 @@ import FirebaseAuth
 
 class DatabaseService {
     
-    static let itemsCollection = "items" // collections
-    static let userCollection = "user"
-    
-    static let commentsCollection = "comments" // sub-collection on the item  document
+    static let itemsCollection = "items" // collection
+    static let userCollection = "users"
+    static let commentsCollection = "comments" // sub-collection on an item document
+    static let favoritesCollection = "favorites" // sub-collection on a user docment
     
     // review - firebase firestore hierachy
     //top level
@@ -24,8 +24,10 @@ class DatabaseService {
     
     // let's get a reference to the firebase firestore database
     private let db = Firestore.firestore()
-    //MARK: dont forget the colons : after the completions !!
-    // we want to refactor in the result type the Bool to a String because we want the documentId
+    
+    private init() {}
+    static let shared = DatabaseService()
+    
     public func createItem(itemName: String, price: Double, category: Category, displayName: String, completion: @escaping (Result <String, Error>) -> ()) {
         guard let user = Auth.auth().currentUser else { return }
         
@@ -57,13 +59,12 @@ class DatabaseService {
         
         
     }
-    //MARK: March 10th
+    
     public func createDatabaseUser(authDataResult: AuthDataResult, completion: @escaping (Result<Bool, Error>) -> ()) {
         
         guard let email = authDataResult.user.email else {
             return
         }
-        // What is this line of code doing ???
         db.collection(DatabaseService.userCollection).document(authDataResult.user.uid).setData(["email" : email, "createdData": Timestamp(date: Date()), "userId": authDataResult.user.uid]) { (error) in
             
             if let error = error {
@@ -74,6 +75,7 @@ class DatabaseService {
             
         }
     }
+    
     func updateDatabaseUser(displayName: String, photoURL: String, completion: @escaping (Result<Bool, Error>) -> ()) {
         guard let user = Auth.auth().currentUser else { return }
         
@@ -107,7 +109,7 @@ class DatabaseService {
         
         let docRef = db.collection(DatabaseService.itemsCollection).document(item.itemId).collection(DatabaseService.commentsCollection).document()
         
-       // using document from above to write it's contents to firebase
+        // using document from above to write it's contents to firebase
         db.collection(DatabaseService.itemsCollection).document(item.itemId).collection(DatabaseService.commentsCollection).document(docRef.documentID).setData(["text":comment , "commentDate":Timestamp(date: Date()), "itemName": item.itemName, "itemId":item.itemId, "sellerName":item.sellerName, "commentedBy":displayName]) { (error) in
             
             if let error = error {
@@ -116,5 +118,77 @@ class DatabaseService {
                 completion(.success(true))
             }
         }
+    }
+    
+    public func addToFavorites(item: Item, completion: @escaping (Result<Bool, Error>) -> ()) {
+        
+        guard let user = Auth.auth().currentUser else { return }
+        db.collection(DatabaseService.userCollection).document(user.uid).collection(DatabaseService.favoritesCollection).document(item.itemId).setData(["itemName" : item.itemName, "price": item.price, "imageURL": item.imageURL, "favoritedDate": Timestamp(date: Date()), "itemId": item.itemId, "sellerName": item.sellerName, "sellerId": item.sellerId]) { (error) in
+            
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                completion(.success(true))
+            }
+        }
+    }
+    
+    public func removeFromFavorites(item: Item, completion: @escaping (Result<Bool, Error>) -> ()) {
+        guard let user = Auth.auth().currentUser else { return }
+        db.collection(DatabaseService.userCollection).document(user.uid).collection(DatabaseService.favoritesCollection).document(item.itemId).delete { (error) in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                completion(.success(true))
+            }
+        }
+    }
+    
+    public func isItemInFavorites(item: Item, completion: @escaping (Result<Bool, Error>) -> ()) {
+        guard let user = Auth.auth().currentUser else { return }
+        
+        // in firebase we use the "where" keyword to query (search) a collection
+        
+        // addSnapshotListener - continues to listen for modifications to a collection
+        // getDocuments - fetches documents ONLY once
+        db.collection(DatabaseService.userCollection).document(user.uid).collection(DatabaseService.favoritesCollection).whereField("itemId", isEqualTo: item.itemId).getDocuments { (snapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+            } else if let snapshot = snapshot {
+                let count = snapshot.documents.count // check if we have documents
+                if count > 0 {
+                    completion(.success(true))
+                } else {
+                    completion(.success(false))
+                }
+            }
+        }
+    }
+    
+    public func fetchUserItems(userId: String, completion: @escaping (Result<[Item], Error>) -> ()) {
+        db.collection(DatabaseService.itemsCollection).whereField(Constants.sellerId, isEqualTo: userId).getDocuments { (snapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+            } else if let snapshot = snapshot {
+                let items = snapshot.documents.map { Item($0.data()) }
+                completion(.success(items))
+            }
+        }
+    }
+    
+    public func fetchFavorites(completion: @escaping (Result<[Favorite], Error>) -> ()) {
+      // access users collection -> userid (document) -> favorites collection
+      guard let user = Auth.auth().currentUser else { return }
+      db.collection(DatabaseService.userCollection).document(user.uid).collection(DatabaseService.favoritesCollection).getDocuments { (snapshot, error) in
+        if let error = error {
+          completion(.failure(error))
+        } else if let snapshot = snapshot {
+          // compact map removes nil values from an array
+          // [4, nil, 12, -9, nil] => [4, 12, -9]
+          // init?() => Favorite?
+          let favorites = snapshot.documents.compactMap { Favorite($0.data()) }
+          completion(.success(favorites.sorted{$0.favoritedDate.seconds > $1.favoritedDate.seconds}))
+        }
+      }
     }
 }
